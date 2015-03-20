@@ -44,6 +44,6 @@ pub fn from_rgb<T: ColorSpace>(clr: Rgb) -> T {
 
 /// Converts `clr` in color space `T` to linear RGB color space.
 #[inline]
-pub fn to_rgb<T: ColorSpace>(clr: T) -> Rgb {
+pub fn to_rgb<T: ColorSpace>(clr: &T) -> Rgb {
     clr.to_rgb()
 }

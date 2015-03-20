@@ -99,7 +99,7 @@
 //! let mut red = hsv.to_rgb();
 //! assert!(is_close_to(&rgb, &red, 0.000001));
 //! let ybr: YCbCr = from_rgb(rgb);
-//! red = to_rgb(ybr);
+//! red = to_rgb(&ybr);
 //! let srgb = Srgb::from_rgb(rgb);
 //! # }
 //! ```
