@@ -1,0 +1,19 @@
+[package]
+
+name = "glm_color"
+version = "0.1.0"
+authors = [
+    "Che Kenan <chekenan@gmail.com>"
+]
+
+description = "A simple library for manipulating and generating color values, based on the `glm-rs` math library."
+keywords = ["color", "glm", "graphics"]
+license = "MIT"
+repository = "https://github.com/dche/glm-color/"
+
+[dependencies]
+rand = "*"
+glm = "*"
+
+[dev-dependencies]
+quickcheck = "*"

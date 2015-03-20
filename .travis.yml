@@ -1,0 +1,9 @@
+language: rust
+sudo: false
+
+script:
+  - cargo build --release --verbose
+  - cargo test --verbose
+
+after_script:
+  - cargo doc --verbose
