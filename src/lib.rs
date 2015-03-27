@@ -21,9 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#![allow(unused_variables)]
-#![feature(core)]
-
 //! A simple crate for manipulating and generating color values. It is an
 //! extension to the [`glm`](https://crates.io/crates/glm) crate.
 //!
@@ -45,6 +42,7 @@
 //! # extern crate glm_color;
 //! # fn main() {
 //! use glm::*;
+//! use glm::ext::tau;
 //! use glm_color::*;
 //!
 //! // constant color values.
@@ -55,7 +53,7 @@
 //! red = rgb(255, 0, 0);
 //!
 //! // from other color spaces.
-//! red = hsv(radians(360.), 1., 1.).to_rgb();
+//! red = hsv(tau(), 1., 1.).to_rgb();
 //! red = ycbcr(1., 0., 0.5).to_rgb();
 //!
 //! // randomly.

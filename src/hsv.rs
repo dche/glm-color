@@ -22,11 +22,10 @@
 // THE SOFTWARE.
 
 use glm::*;
+use glm::ext::{ pi, tau };
 use super::space::ColorSpace;
 use super::rgb::Rgb;
-use std::f32::consts::{ PI, PI_2 };
 use std::mem;
-use std::ops::{ Index };
 use rand::{ Rand, Rng, thread_rng };
 
 /// The HSV color space.
@@ -47,7 +46,8 @@ pub struct Hsv {
 impl Rand for Hsv {
     #[inline]
     fn rand<R: Rng>(rng: &mut R) -> Hsv {
-        let h: f32 = rng.gen() * PI_2;
+        let pi2: f32 = tau();
+        let h: f32 = rng.gen() * pi2;
         let s: f32 = rng.gen();
         let b: f32 = rng.gen();
         Hsv { h: h, s: s, v: b }
@@ -72,8 +72,9 @@ impl Hsv {
     /// ```
     #[inline]
     pub fn new(hue: f32, saturation: f32, brightness: f32) -> Hsv {
-        let mut h = clamp(hue, 0., PI_2);
-        if h == PI_2 {
+        let pi2 = tau();
+        let mut h = clamp(hue, 0., pi2);
+        if h == pi2 {
             h = 0.
         };
         let s = clamp(saturation, 0., 1.);
@@ -144,8 +145,9 @@ impl Hsv {
     /// The parameter `h` is clampped to the range [0, 2π).
     #[inline]
     pub fn set_hue(&mut self, h: f32) {
-        let mut hv = clamp(h, 0., PI_2);
-        if hv == PI_2 {
+        let pi2 = tau();
+        let mut hv = clamp(h, 0., pi2);
+        if hv == pi2 {
             hv = 0.;
         }
         self.h = hv
@@ -210,16 +212,17 @@ impl Hsv {
     /// # extern crate glm_color;
     /// # fn main() {
     /// use glm::*;
+    /// use glm::ext::pi;
     /// use glm_color::*;
     ///
     /// let red = Hsv::from_hue(0.);
-    /// let green = Hsv::from_hue(radians(180.));
+    /// let green = Hsv::from_hue(pi());
     /// assert_eq!(red.complement(), green);
     /// # }
     /// ```
     #[inline]
     pub fn complement(&self) -> Hsv {
-        self.with_hue(fmod(self.hue() + PI, PI_2))
+        self.with_hue(fmod(self.hue() + pi(), tau()))
     }
 
     /// Returns a pair of colors that are splited from the complementary color
@@ -230,8 +233,9 @@ impl Hsv {
     /// degrees.
     #[inline]
     pub fn split_complement(&self) -> (Self, Self) {
-        let h1 = fmod(self.hue() + radians(150.), PI_2);
-        let h2 = fmod(self.hue() + radians(210.), PI_2);
+        let pi2 = tau();
+        let h1 = fmod(self.hue() + radians(150.), pi2);
+        let h2 = fmod(self.hue() + radians(210.), pi2);
         (self.with_hue(h1), self.with_hue(h2))
     }
 
@@ -265,9 +269,10 @@ impl Hsv {
     /// ```
     #[inline]
     pub fn triad(&self) -> (Hsv, Hsv) {
+        let pi2 = tau();
         let d120 = radians(120.);
-        let h1 = fmod(self.hue() + d120, PI_2);
-        let h2 = fmod(self.hue() + d120 + d120, PI_2);
+        let h1 = fmod(self.hue() + d120, pi2);
+        let h2 = fmod(self.hue() + d120 + d120, pi2);
         (self.with_hue(h1), self.with_hue(h2))
     }
 
@@ -282,7 +287,7 @@ impl Hsv {
             let d = span / (n as f32);
             let h = self.hue();
             (0..n).map(|i| -> Hsv {
-                let hue = fmod(h + d * (i as f32), PI_2);
+                let hue = fmod(h + d * (i as f32), tau());
                 Hsv { h: hue, s: self.s, v: self.v }
             }).collect()
         }
@@ -310,7 +315,7 @@ impl Hsv {
     #[inline]
     pub fn color_wheel(n: usize) -> Vec<Hsv> {
         let red = Hsv::from_hue(0.);
-        red.analogs(n, PI_2)
+        red.analogs(n, tau())
     }
 
     /// Produces a color by adding white to the receiver.
@@ -449,14 +454,6 @@ impl ColorSpace for Hsv {
                 _ => unreachable!(),
             }
         }
-    }
-}
-
-impl Index<usize> for Hsv {
-    type Output = f32;
-    #[inline]
-    fn index<'a>(&'a self, i: &usize) -> &'a f32 {
-        self.as_vec3().index(i)
     }
 }
 
