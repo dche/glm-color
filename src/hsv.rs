@@ -22,7 +22,7 @@
 // THE SOFTWARE.
 
 use glm::*;
-use glm::ext::{ pi, tau };
+use glm::ext::*;
 use super::space::ColorSpace;
 use super::rgb::Rgb;
 use std::mem;
@@ -46,10 +46,9 @@ pub struct Hsv {
 impl Rand for Hsv {
     #[inline]
     fn rand<R: Rng>(rng: &mut R) -> Hsv {
-        let pi2: f32 = tau();
-        let h: f32 = rng.gen() * pi2;
-        let s: f32 = rng.gen();
-        let b: f32 = rng.gen();
+        let h = rng.gen::<f32>() * f32::tau();
+        let s = rng.gen();
+        let b = rng.gen();
         Hsv { h: h, s: s, v: b }
     }
 }
@@ -222,7 +221,7 @@ impl Hsv {
     /// ```
     #[inline]
     pub fn complement(&self) -> Hsv {
-        self.with_hue(fmod(self.hue() + pi(), tau()))
+        self.with_hue(fmod(self.hue() + f32::pi(), tau()))
     }
 
     /// Returns a pair of colors that are splited from the complementary color
